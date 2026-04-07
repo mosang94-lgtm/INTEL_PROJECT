@@ -1,0 +1,130 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+  <meta name="theme-color" content="#1a1a2e">
+  <meta name="description" content="AI 기반 자동차 부품 외관 품질검사 시스템">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+  <title>CarInspect — 부품 품질검사</title>
+  <link rel="stylesheet" href="style.css">
+  <link rel="manifest" href="manifest.json">
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🔍</text></svg>">
+</head>
+<body>
+
+  <!-- Header -->
+  <header class="app-header">
+    <h1 class="app-title">🔍 CarInspect</h1>
+    <span class="app-badge" id="mode-badge">Mock</span>
+  </header>
+
+  <!-- Pages -->
+  <main class="app-main">
+
+    <!-- Capture Page -->
+    <section id="page-capture" class="page">
+      <div class="capture-container">
+        <div class="camera-viewport">
+          <video id="camera-video" class="camera-video" autoplay playsinline muted></video>
+          <div class="camera-guide">
+            <div class="guide-corner tl"></div>
+            <div class="guide-corner tr"></div>
+            <div class="guide-corner bl"></div>
+            <div class="guide-corner br"></div>
+          </div>
+          <p id="camera-status" class="camera-status"></p>
+        </div>
+        <div class="capture-actions">
+          <button id="btn-capture" class="btn btn-capture" disabled aria-label="촬영">
+            <span class="capture-ring"></span>
+          </button>
+        </div>
+        <div id="file-fallback" class="file-fallback hidden">
+          <label class="btn btn-secondary file-label" for="file-input">
+            📁 이미지 파일 선택
+          </label>
+          <input id="file-input" type="file" accept="image/*" capture="environment" class="sr-only">
+        </div>
+      </div>
+    </section>
+
+    <!-- Result Page -->
+    <section id="page-result" class="page hidden">
+      <div id="result-content" class="result-content">
+        <p class="empty-state">검사 결과가 없습니다.</p>
+      </div>
+    </section>
+
+    <!-- History Page -->
+    <section id="page-history" class="page hidden">
+      <div id="history-content" class="history-content">
+        <p class="empty-state">검사 이력이 없습니다.</p>
+      </div>
+    </section>
+
+    <!-- Settings Page -->
+    <section id="page-settings" class="page hidden">
+      <div class="settings-content">
+        <h2>설정</h2>
+        <div class="settings-mode-row">
+          <span>현재 모드:</span>
+          <span id="settings-mode" class="mode-label">🟡 Mock 모드</span>
+        </div>
+        <form id="settings-form" class="settings-form">
+          <label for="settings-api-url">API 서버 URL</label>
+          <input id="settings-api-url" type="url" placeholder="https://your-server.com/api" autocomplete="url">
+          <p class="settings-hint">비워두면 Mock 모드로 동작합니다.</p>
+          <button type="submit" class="btn btn-primary">저장</button>
+        </form>
+        <div class="settings-info">
+          <h3>시스템 정보</h3>
+          <dl>
+            <dt>모델</dt><dd>EfficientDet-D3 (Mock)</dd>
+            <dt>버전</dt><dd>1.0.0-mock</dd>
+            <dt>데이터셋</dt><dd>AI Hub 578</dd>
+            <dt>부품 클래스</dt><dd>11종</dd>
+            <dt>불량 유형</dt><dd>12종</dd>
+          </dl>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <!-- Loading Overlay -->
+  <div id="loading-overlay" class="loading-overlay hidden" aria-live="polite">
+    <div class="spinner"></div>
+    <p>검사 중...</p>
+  </div>
+
+  <!-- Toast Container -->
+  <div id="toast-container" class="toast-container" aria-live="polite"></div>
+
+  <!-- Bottom Navigation -->
+  <nav class="bottom-nav" aria-label="메인 내비게이션">
+    <button data-page="capture" class="nav-btn active" aria-label="촬영">
+      <span class="nav-icon">📷</span>
+      <span class="nav-label">촬영</span>
+    </button>
+    <button data-page="result" class="nav-btn" aria-label="결과">
+      <span class="nav-icon">📊</span>
+      <span class="nav-label">결과</span>
+    </button>
+    <button data-page="history" class="nav-btn" aria-label="이력">
+      <span class="nav-icon">📋</span>
+      <span class="nav-label">이력</span>
+    </button>
+    <button data-page="settings" class="nav-btn" aria-label="설정">
+      <span class="nav-icon">⚙️</span>
+      <span class="nav-label">설정</span>
+    </button>
+  </nav>
+
+  <!-- Scripts: order matters (data → api → camera → app) -->
+  <script src="data.js"></script>
+  <script src="api.js"></script>
+  <script src="camera.js"></script>
+  <script src="app.js"></script>
+</body>
+</html>
