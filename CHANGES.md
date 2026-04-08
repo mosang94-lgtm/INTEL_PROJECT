@@ -188,6 +188,20 @@ epochs = 100,
 
 ---
 
+## Step 6. setup_data.py — New_Sample + 160.차량파손 이미지 데이터 통합
+
+**위치:** `1.AI모델 소스코드/setup_data.py`
+
+**변경 내용:**
+- 기존: `New_Sample` 하나만 심볼릭 링크
+- 변경: `New_Sample` + `160. 차량파손 이미지 데이터` 두 소스를 합쳐서 `data/Dataset/1.원천데이터/damage/`에 개별 파일 심볼릭 링크로 통합
+- 중복 파일명은 자동 스킵
+- CSV 및 COCO JSON도 통합된 데이터 기준으로 재생성
+
+**이유:** 실제 학습에 AIHub 전체 데이터(402,103장 + New_Sample)를 모두 사용하기 위함.
+
+---
+
 ---
 
 # PART 2 — AI 모델 평가 + ai-army 연동 (2026-04-07)
