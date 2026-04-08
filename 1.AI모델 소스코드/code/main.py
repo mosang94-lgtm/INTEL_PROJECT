@@ -86,7 +86,6 @@ if __name__ == "__main__":
         # train damage
         if (arg.label == "all") & (arg.task == "damage"):
             label_schme = ["Scratched","Separated","Crushed","Breakage"]
-            epochs = [1,8,5,9]
             for i in range(4):
                 trainer = Trainer(
                             ails = f"{arg.task}",
@@ -99,8 +98,7 @@ if __name__ == "__main__":
                             n_class = n_cls,
                             optimizer = torch.optim.Adam,
                             criterion = torch.nn.CrossEntropyLoss(),
-                            # epochs = epochs[i],
-                            epochs = 2,
+                            epochs = 100,
                             batch_size = 64,
                             encoder_lr = 1e-06,
                             decoder_lr = 3e-04,
