@@ -1,7 +1,6 @@
 import os
 import json
 import glob
-import json
 import cv2
 import numpy as np
 import pandas as pd
@@ -212,6 +211,28 @@ def add_hist(hist, label_trues, label_preds, n_class):
         hist += _fast_hist(lt.flatten(), lp.flatten(), n_class)
 
     return hist
+
+class DiceBCELoss(nn.Module):
+    """Dice Loss + BCE Loss 조합. 클래스 불균형 세그멘테이션에 효과적."""
+    def __init__(self, bce_weight=0.5, smooth=1.0):
+        super(DiceBCELoss, self).__init__()
+        self.bce_weight = bce_weight
+        self.smooth = smooth
+        self.bce = nn.CrossEntropyLoss()
+
+    def forward(self, inputs, targets):
+        bce_loss = self.bce(inputs, targets)
+
+        # softmax → 클래스 1(손상) 확률맵
+        probs = F.softmax(inputs, dim=1)[:, 1]
+        targets_float = targets.float()
+
+        intersection = (probs * targets_float).sum()
+        dice = (2.0 * intersection + self.smooth) / (probs.sum() + targets_float.sum() + self.smooth)
+        dice_loss = 1.0 - dice
+
+        return dice_loss + self.bce_weight * bce_loss
+
 
 class FocalLoss(nn.Module):
     "Non weighted version of Focal Loss"

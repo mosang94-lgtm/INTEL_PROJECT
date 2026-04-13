@@ -145,7 +145,7 @@ if __name__ == "__main__":
     venv_python = os.path.join(BASE_DIR, "../.venv/bin/python")
     if not os.path.exists(venv_python):
         venv_python = "python"
-    ret = os.system(f"{venv_python} code/src/Utils.py --make_cocoformat y --task damage")
+    ret = os.system(f'"{venv_python}" code/src/Utils.py --make_cocoformat y --task damage')
     if ret != 0:
         print("Utils.py 실행 실패")
         sys.exit(1)

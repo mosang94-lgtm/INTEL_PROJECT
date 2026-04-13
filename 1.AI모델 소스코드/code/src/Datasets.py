@@ -85,7 +85,9 @@ class Datasets(Dataset):
             images = transformed["image"]
         
         
-        images = images/255.
+        # transform에 A.Normalize가 포함된 경우 이미 정규화됨 → /255. 스킵
+        if not (self.transform is not None and images.dtype == np.float32 and images.min() < 0):
+            images = images / 255.
         images = images.transpose([2,0,1]) 
         # if not(self.one_channel):
             # masks = masks.transpose([2,0,1]) # n_cls * w * h

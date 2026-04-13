@@ -13,7 +13,6 @@ class Unet(nn.Module):
     
     def forward(self, x):
         y = self.model(x)
-        encoder_weights = "imagenet"
         return y
 
     

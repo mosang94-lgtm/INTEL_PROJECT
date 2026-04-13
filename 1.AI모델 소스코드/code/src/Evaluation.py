@@ -218,9 +218,9 @@ class Evaluation():
                 self.log["end_at_kst"] = end_time
                 self.log["evaluation"][epoch]['eval']['summary'] = tmp
 
-                message='Validation_label #{} #{} Average Loss: {:.4f}, mIoU: {:.4f}, background IoU : {:.4f}, target IoU : {:.4f}'.format(epoch+2, step, avrg_loss, mIoU, cls_IoU[0], cls_IoU[1] )
+                message='Validation_label #{} #{} Average Loss: {:.4f}, mIoU: {:.4f}, background IoU : {:.4f}, target IoU : {:.4f}'.format(epoch+1, step, avrg_loss, mIoU, cls_IoU[0], cls_IoU[1] )
             else:
-                message='Validation #{} #{} Average Loss: {:.4f}, mIoU: {:.4f}, background IoU : {:.4f}, target 1IoU : {:.4f}, target 2IoU : {:.4f}, target 3IoU : {:.4f}, target 3IoU : {:.4f}'.format(epoch, step, avrg_loss, mIoU, cls_IoU[0], cls_IoU[1], cls_IoU[2], cls_IoU[3], cls_IoU[4] )
+                message='Validation #{} #{} Average Loss: {:.4f}, mIoU: {:.4f}, background IoU : {:.4f}, target 1IoU : {:.4f}, target 2IoU : {:.4f}, target 3IoU : {:.4f}, target 4IoU : {:.4f}'.format(epoch, step, avrg_loss, mIoU, cls_IoU[0], cls_IoU[1], cls_IoU[2], cls_IoU[3], cls_IoU[4] )
                 now = datetime.datetime.now(timezone('Asia/Seoul'))
                 end_time = now.strftime('%Y-%m-%d %H:%M:%S %Z%z')
                 tmp = {"mIoU": mIoU.item(),

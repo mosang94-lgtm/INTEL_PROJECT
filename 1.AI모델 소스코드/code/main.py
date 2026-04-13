@@ -106,7 +106,7 @@ if __name__ == "__main__":
                             device = device)
                 trainer.train()
         # train damage one label
-        elif (arg.task == 'demage') & (arg.method == 'multi'):
+        elif (arg.task == 'damage') & (arg.method == 'multi'):
             trainer = Trainer(
                         ails = f"{arg.task}_label{arg.label}",
                         train_dir = f"../data/datainfo/{arg.task}_trainsample.json",
@@ -131,7 +131,7 @@ if __name__ == "__main__":
 
             transform = A.Compose([
                             A.RandomRotate90(p=0.3),
-                            A.CoarseDropout(p=0.3, num_holes_range=(1, 8), hole_height_range=(32, 32), hole_width_range=(32, 32)),
+                            A.CoarseDropout(p=0.3, max_holes=8, min_holes=1, max_height=32, max_width=32, min_height=32, min_width=32),
                             A.Resize(height=256, width=256)])
 
             scheduler = partial(StepLR, step_size=10, gamma=0.9)

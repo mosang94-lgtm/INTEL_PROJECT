@@ -1,6 +1,7 @@
 # -*- coding: utf-8 -*-
 import uuid
 import time
+from contextlib import asynccontextmanager
 from datetime import datetime, timezone
 
 from fastapi import FastAPI, File, UploadFile, HTTPException
@@ -9,7 +10,16 @@ from fastapi.middleware.cors import CORSMiddleware
 from inference import load_all_models, predict_masks
 from grading import process_masks
 
-app = FastAPI(title='CarInspect AI Server')
+# 서버 시작 시 모델 로드
+models = {}
+
+@asynccontextmanager
+async def lifespan(app):
+    global models
+    models = load_all_models()
+    yield
+
+app = FastAPI(title='CarInspect AI Server', lifespan=lifespan)
 
 app.add_middleware(
     CORSMiddleware,
@@ -17,14 +27,6 @@ app.add_middleware(
     allow_methods=['*'],
     allow_headers=['*'],
 )
-
-# 서버 시작 시 모델 로드
-models = {}
-
-@app.on_event('startup')
-async def startup():
-    global models
-    models = load_all_models()
 
 
 @app.get('/health')
